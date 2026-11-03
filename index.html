@@ -22,6 +22,11 @@
   .price { font-weight:700; font-size:18px; }
   .title { margin:4px 0; }
   .meta { color:var(--muted); font-size:13px; }
+  .actions { display:flex; justify-content:space-between; align-items:center; margin:8px 0 16px; }
+  .btn { background:var(--accent); color:#fff; border:none; border-radius:10px; padding:12px 20px; font-size:16px; font-weight:600; cursor:pointer; }
+  .btn:hover { filter:brightness(1.1); }
+  #msg { color:var(--accent); font-weight:600; min-height:1em; }
+  .card.new { outline:3px solid var(--accent); }
   footer { text-align:center; color:var(--muted); font-size:12px; padding:20px; }
 </style>
 </head>
@@ -41,7 +46,11 @@
 </div>
 
 <main>
-  <div class="grid">
+  <div class="actions">
+    <span id="msg"></span>
+    <button class="btn" id="sellBtn">+ Sell something</button>
+  </div>
+  <div class="grid" id="grid">
     <div class="card"><div class="img">📚</div><div class="info"><div class="price">$40</div><div class="title">ECON 100 textbook</div><div class="meta">Baker College · 2h ago</div></div></div>
     <div class="card"><div class="img">🛋️</div><div class="info"><div class="price">$75</div><div class="title">Dorm futon, great shape</div><div class="meta">Lovett College · 5h ago</div></div></div>
     <div class="card"><div class="img">🎟️</div><div class="info"><div class="price">$20</div><div class="title">Rice vs. UH game ticket</div><div class="meta">Martel College · 1d ago</div></div></div>
@@ -52,5 +61,25 @@
 </main>
 
 <footer>Class prototype inspired by the Fizz Marketplace at Rice. Not affiliated with Fizz. Listings are fake.</footer>
+
+<script>
+  const items = [
+    ["🧥","$35","Rice hoodie, size L"],
+    ["☕","$15","Coffee maker"],
+    ["🎾","$25","Tennis racquet"],
+    ["🖥️","$80","27\" monitor"],
+    ["🎒","$10","Backpack"]
+  ];
+  let count = 0;
+  document.getElementById("sellBtn").addEventListener("click", () => {
+    const [emoji, price, title] = items[count % items.length];
+    count++;
+    const card = document.createElement("div");
+    card.className = "card new";
+    card.innerHTML = `<div class="img">${emoji}</div><div class="info"><div class="price">${price}</div><div class="title">${title}</div><div class="meta">You · just now</div></div>`;
+    document.getElementById("grid").prepend(card);
+    document.getElementById("msg").textContent = `✅ Listing posted! You've posted ${count} item${count > 1 ? "s" : ""}.`;
+  });
+</script>
 </body>
 </html>
